@@ -7,4 +7,9 @@ use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
+
+    public function singIn($user = null)
+    {
+        return $this->actingAs($user ?: factory('App\User')->create());
+    }
 }
