@@ -42,7 +42,8 @@ class ManageProjectsTest extends TestCase
 
         $attributes = [
             'title' => $this->faker->sentence,
-            'description' => $this->faker->paragraph,
+            'description' => $this->faker->paragraph(),
+            'notes' => 'General Notes Here',
         ];
 
         $this->get('/projects/create')->assertStatus(200);
@@ -54,7 +55,26 @@ class ManageProjectsTest extends TestCase
 
         $this->assertDatabaseHas('projects', $attributes);
 
-        $this->get('/projects')->assertSee($attributes['title']);
+        $this->get($project->path())
+            ->assertSee($attributes['title'])
+            ->assertSee($attributes['description'])
+            ->assertSee($attributes['notes']);
+    }
+
+    /** @test */
+    public function a_user_can_update_a_project()
+    {
+        $this->singIn();
+
+        $this->withoutExceptionHandling();
+
+        $project = factory('App\Project')->create(['owner_id' => auth()->id()]);
+
+        $this->patch($project->path(), [
+            'notes' => 'Changed',
+        ])->assertRedirect($project->path());
+
+        $this->assertDatabaseHas('projects', ['notes' => 'Changed']);
     }
 
     /** @test */
@@ -82,6 +102,16 @@ class ManageProjectsTest extends TestCase
     }
 
     /** @test */
+    public function an_aunthenticated_user_cannot_update_the_projects_of_other()
+    {
+        $this->singIn();
+
+        $project = factory('App\Project')->create();
+
+        $this->patch($project->path(), [])->assertStatus(403);
+    }
+
+    /** @test */
     public function a_project_requires_a_title()
     {
         $this->singIn();
@@ -94,7 +124,7 @@ class ManageProjectsTest extends TestCase
     public function a_project_requires_a_description()
     {
         $this->singIn();
-        
+
         $attributes = factory('App\Project')->raw(['description' => '']);
 
         $this->post('/projects', $attributes)->assertSessionHasErrors('description');
