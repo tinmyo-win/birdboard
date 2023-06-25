@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Project;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -10,16 +11,20 @@ class ProjectsController extends Controller
 {
     public function index()
     {
-        // $projects = Project::all();
-        $projects = auth()->user()->projects;
+        try {
+            // $projects = Project::all();
+            $projects = auth()->user()->projects;
 
-        return view('projects.index', compact('projects'));
+            return view('projects.index', compact('projects'));
+        } catch (Exception $e) {
+            Log::info($e->getTraceAsString());
+        }
     }
 
     public function store()
     {
         $attributes = request()->validate([
-            'title' => 'required', 
+            'title' => 'required',
             'description' => 'required',
         ]);
 
@@ -30,7 +35,7 @@ class ProjectsController extends Controller
 
     public function show(Project $project)
     {
-        if(auth()->user()->isNot($project->owner)) {
+        if (auth()->user()->isNot($project->owner)) {
             abort(403);
         }
         return view('projects.show', compact('project'));
