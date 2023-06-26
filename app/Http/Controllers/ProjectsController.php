@@ -36,9 +36,10 @@ class ProjectsController extends Controller
 
     public function update(Project $project)
     {
-        if (auth()->user()->isNot($project->owner)) {
-            abort(403);
-        }
+        $this->authorize('update', $project);
+        // if (auth()->user()->isNot($project->owner)) {
+        //     abort(403);
+        // }
 
         $project->update(request(['notes']));
 
