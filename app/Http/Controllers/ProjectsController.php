@@ -5,31 +5,21 @@ namespace App\Http\Controllers;
 use App\Project;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 
 class ProjectsController extends Controller
 {
     public function index()
     {
-        try {
-            // $projects = Project::all();
             $projects = auth()->user()->projects;
 
             return view('projects.index', compact('projects'));
-        } catch (Exception $e) {
-            Log::info($e->getTraceAsString());
-        }
     }
 
     public function store()
     {
-        $attributes = request()->validate([
-            'title' => 'required',
-            'description' => 'required',
-            'notes' => 'min:3',
-        ]);
-
-        $project = auth()->user()->projects()->create($attributes);
+        $project = auth()->user()->projects()->create($this->validateProject());
 
         return redirect($project->path());
     }
@@ -37,11 +27,8 @@ class ProjectsController extends Controller
     public function update(Project $project)
     {
         $this->authorize('update', $project);
-        // if (auth()->user()->isNot($project->owner)) {
-        //     abort(403);
-        // }
 
-        $project->update(request(['notes']));
+        $project->update($this->validateProject());
 
         return redirect($project->path());
     }
@@ -54,8 +41,22 @@ class ProjectsController extends Controller
         return view('projects.show', compact('project'));
     }
 
+    public function edit(Project $project)
+    {
+        return view('projects.edit', compact('project'));
+    }
+
     public function create()
     {
         return view('projects.create');
+    }
+
+    protected function validateProject()
+    {
+        return request()->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'notes' => 'min:3',
+        ]);
     }
 }
