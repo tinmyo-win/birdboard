@@ -1,5 +1,6 @@
 <?php
 
+use App\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,5 +14,9 @@ class DatabaseSeeder extends Seeder
     {
         // $this->call(UsersTableSeeder::class);
         factory('App\Project', 50)->create();
+        
+        factory(User::class)->create([
+            'email' => 'admin@gmail.com'
+        ]);
     }
 }
