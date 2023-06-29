@@ -13,16 +13,9 @@
 
 use App\Http\Controllers\ProjectsController;
 use App\Http\Controllers\ProjectTasksController;
+use App\Project;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/test', function () {
-    return view('test');
-});
 
 Route::group(['middleware' => 'auth'], function() {
     Route::post('/projects', [ProjectsController::class, 'store']);
