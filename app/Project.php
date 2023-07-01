@@ -2,10 +2,13 @@
 
 namespace App;
 
+use App\Traits\TriggersActivity;
 use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model
 {
+    use TriggersActivity;
+    
     protected $guarded = [];
 
     public function path()
