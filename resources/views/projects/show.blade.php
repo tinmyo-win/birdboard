@@ -44,13 +44,8 @@
                                 <form action="{{ $project->path() }}" method="POST">
                                         @csrf
                                         @method('PATCH')
-                                        <textarea 
-                                                name="notes"
-                                                class="card w-full mb-4" 
-                                                placeholder="Anything special that you want to make a note of" 
-                                                style="min-height: 200px;"
-                                        >
-                                                {{ $project->notes }}
+                                        <textarea name="notes" class="card w-full mb-4" placeholder="Anything special that you want to make a note of" style="min-height: 200px;">
+                                        {{ $project->notes }}
                                         </textarea>
                                         <button type="submit" class="button">Save</button>
                                 </form>
@@ -58,6 +53,8 @@
                 </div>
                 <div class="lg:w-1/4 px-3">
                         @include('projects.card', ['charLimit' => PHP_INT_MAX])
+
+                        @include('projects.activity.card')
                 </div>
         </div>
 </main>
@@ -65,9 +62,9 @@
 @endsection
 
 @if($errors->any())
-    <div class="field mt-6">
+<div class="field mt-6">
         @foreach($errors->all() as $error)
-            <li class="text-sm text-red">{{$error }}</li>
+        <li class="text-sm text-red">{{$error }}</li>
         @endforeach
-    </div>
+</div>
 @endif
