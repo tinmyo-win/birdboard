@@ -2,12 +2,15 @@
 
 namespace App;
 
+use App\Traits\RecordsActivity;
 use App\Traits\TriggersActivity;
 use Illuminate\Database\Eloquent\Model;
 
 class Task extends Model
 {
     // use TriggersActivity;
+    use RecordsActivity;
+
     protected $guarded = [];
     protected $touches = ['project'];
 
@@ -15,12 +18,16 @@ class Task extends Model
         'completed' => 'boolean',
     ];
 
+    protected static $recordableEvents = ['created', 'deleted'];
 
-    public function project() {
+
+    public function project()
+    {
         return $this->belongsTo(Project::class);
     }
 
-    public function path() {
+    public function path()
+    {
         return "/projects/{$this->project->id}/tasks/$this->id";
     }
 
@@ -36,18 +43,5 @@ class Task extends Model
         $this->update(['completed' => false]);
 
         $this->recordActivity('incompleted_task');
-    }
-
-    public function recordActivity($description)
-    {
-        $this->activity()->create([
-            'project_id' => $this->project_id,
-            'description' => $description,
-        ]);
-    }
-
-    public function activity()
-    {
-        return $this->morphMany(Activity::class, 'subject')->latest();
     }
 }
