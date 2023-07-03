@@ -10,7 +10,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 
 class ProjectsController extends Controller
-{
+{ 
     public function index()
     {
             $projects = auth()->user()->projects;
@@ -57,5 +57,13 @@ class ProjectsController extends Controller
             'description' => 'sometimes|required',
             'notes' => 'nullable',
         ]);
+    }
+
+    public function destroy(Project $project)
+    {
+        $this->authorize('update', $project);
+        $project->delete();
+
+        return redirect('/projects');
     }
 }
