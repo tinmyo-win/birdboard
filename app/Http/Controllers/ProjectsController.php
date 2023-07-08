@@ -34,9 +34,11 @@ class ProjectsController extends Controller
 
     public function show(Project $project)
     {
-        if (auth()->user()->isNot($project->owner)) {
-            abort(403);
-        }
+        // if (auth()->user()->isNot($project->owner)) {
+        //     abort(403);
+        // }
+        $this->authorize('update', $project);
+        
         return view('projects.show', compact('project'));
     }
 

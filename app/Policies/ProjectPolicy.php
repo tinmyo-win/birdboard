@@ -20,6 +20,11 @@ class ProjectPolicy
         //
     }
 
+    public function manage(User $user, Project $project)
+    {
+        return $user->is($project->owner);
+    }
+
     public function create(User $user, Project $project)
     {
         return $user->is($project->owner);
