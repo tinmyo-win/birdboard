@@ -10,7 +10,7 @@
                 </p>
                 <div class="flex items-center">
                         @foreach ($project->members as $member)
-                                <img src="{{ avatar_url($member->name) }}" alt="{{ $member->name }}'s avatar" class="rounded-full w-8 mr-2">
+                        <img src="{{ avatar_url($member->name) }}" alt="{{ $member->name }}'s avatar" class="rounded-full w-8 mr-2">
                         @endforeach
                         <img src="{{ avatar_url($project->owner->name) }}" alt="{{ $project->owner->name }}'s avatar" class="rounded-full w-8 mr-2">
                         <a href="{{ $project->path(). '/edit' }}" class="button ml-4">Edit Project</a>
@@ -56,21 +56,19 @@
                                         <button type="submit" class="button">Save</button>
                                 </form>
                         </div>
+
+                        @include('errors')
                 </div>
                 <div class="lg:w-1/4 px-3">
                         @include('projects.card', ['charLimit' => PHP_INT_MAX])
 
                         @include('projects.activity.card')
+                        
+                        @can('manage', $project)
+                        @include('projects.invite')
+                        @endcan
                 </div>
         </div>
 </main>
 
 @endsection
-
-@if($errors->any())
-<div class="field mt-6">
-        @foreach($errors->all() as $error)
-        <li class="text-sm text-red">{{$error }}</li>
-        @endforeach
-</div>
-@endif
