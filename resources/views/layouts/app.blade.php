@@ -23,7 +23,7 @@
 
 </head>
 
-<body class="theme-light text-default bg-page">
+<body class="theme-dark text-default bg-page">
     <div id="app">
         <nav class=" bg-header">
             <div class="container mx-auto">
