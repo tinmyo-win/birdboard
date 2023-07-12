@@ -32,12 +32,13 @@
               rows="7"
               v-model="form.description"
             >
-            <span 
-              class="text-xs italic text-error" 
-              v-if="errors.description" 
-              v-text="errors.description[0]">
-            </span>
             </textarea>
+            <span
+              class="text-xs italic text-error"
+              v-if="errors.description"
+              v-text="errors.description[0]"
+            >
+            </span>
           </div>
         </div>
 
@@ -49,12 +50,16 @@
               class="mb-2 border border-muted-light p-2 text-xs block w-full rounded"
               placeholder="Task1"
               v-for="task in form.tasks"
-              v-bind:key="task.id"
-              v-model="task.value"
+              v-bind:key="task._id"
+              v-model="task.body"
             />
           </div>
 
-          <button class="inline-flex items-center text-xs" @click="addTask">
+          <button
+            type="button"
+            class="inline-flex items-center text-xs"
+            @click="addTask"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="18"
@@ -83,6 +88,7 @@
 
       <footer class="flex justify-end">
         <button
+          type="button"
           class="button is-outlined mr-4"
           @click="$modal.hide('new-project')"
         >
@@ -102,7 +108,7 @@ export default {
       form: {
         title: "",
         description: "",
-        tasks: [{ id: 1, value: "Test1" }],
+        tasks: [{ _id: 1, body: "Test1" }],
       },
 
       errors: {},
@@ -111,8 +117,8 @@ export default {
 
   methods: {
     addTask() {
-      let id = this.form.tasks.length;
-      this.form.tasks.push({ id, value: "" });
+      let _id = this.form.tasks.length;
+      this.form.tasks.push({ _id, body: "" });
     },
 
     async submit() {
