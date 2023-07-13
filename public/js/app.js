@@ -14695,6 +14695,8 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_js_modal___default.a);
 Vue.component('theme-switcher', __webpack_require__(41));
 Vue.component('new-project-modal', __webpack_require__(44));
 
+Vue.component('dropdown', __webpack_require__(56));
+
 var app = new Vue({
   el: '#app'
 });
@@ -50762,6 +50764,175 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 52 */,
+/* 53 */,
+/* 54 */,
+/* 55 */,
+/* 56 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(12)
+/* script */
+var __vue_script__ = __webpack_require__(57)
+/* template */
+var __vue_template__ = __webpack_require__(58)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/Dropdown.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-ef782e08", Component.options)
+  } else {
+    hotAPI.reload("data-v-ef782e08", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 57 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: {
+        width: { default: 'auto' },
+        align: { default: 'left' }
+    },
+    data: function data() {
+        return { isOpen: false };
+    },
+
+
+    watch: {
+        isOpen: function isOpen(_isOpen) {
+            if (_isOpen) {
+                document.addEventListener('click', this.closeIfClickedOutside);
+            }
+        }
+    },
+
+    methods: {
+        closeIfClickedOutside: function closeIfClickedOutside(event) {
+            if (!event.target.closest('.dropdown')) {
+                this.isOpen = false;
+                document.removeEventListener('click', this.closeIfClickedOutside);
+            }
+        }
+    }
+});
+
+/***/ }),
+/* 58 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "dropdown" }, [
+    _c(
+      "div",
+      {
+        staticClass: "dropdown-toggle relative",
+        attrs: { "aria-haspopup": "true", "aria-expanded": _vm.isOpen },
+        on: {
+          click: function($event) {
+            $event.preventDefault()
+            _vm.isOpen = !_vm.isOpen
+          }
+        }
+      },
+      [_vm._t("trigger")],
+      2
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.isOpen,
+            expression: "isOpen"
+          }
+        ],
+        staticClass: "dropdown-menu absolute bg-card py-2 rounded shadow mt-2",
+        class: _vm.align === "left" ? "pin-l" : "pin-r",
+        style: { width: _vm.width }
+      },
+      [_vm._t("default")],
+      2
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-ef782e08", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

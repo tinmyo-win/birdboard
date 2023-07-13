@@ -22,6 +22,7 @@ Vue.use(vmodal)
 Vue.component('theme-switcher', require('./components/ThemeSwitcher.vue'));
 Vue.component('new-project-modal', require('./components/NewProjectModal.vue'));
 
+Vue.component('dropdown', require('./components/Dropdown.vue'));
 
 const app = new Vue({
     el: '#app'

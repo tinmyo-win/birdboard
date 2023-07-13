@@ -51,18 +51,28 @@
                         <div class="flex items-center ml-auto">
                             <!-- Authentication Links -->
                             @guest
-                            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                            <a class="text-accent mr-4 no-underline hover:underline" href="{{ route('login') }}">{{ __('Login') }}</a>
+
                             @if (Route::has('register'))
-                            <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                            <a class="text-accent no-underline hover:underline" href="{{ route('register') }}">{{ __('Register') }}</a>
                             @endif
+
                             @else
 
-                                <theme-switcher></theme-switcher>
+                            <theme-switcher></theme-switcher>
+                            <dropdown align="right" width="200px">
+                                <template v-slot:trigger>
+                                    <button class="flex items-center text-default no-underline text-sm">
+                                        <img src="{{ avatar_url(auth()->user()->name) }}" alt="{{ auth()->user()->email }}'s avatar" class="rounded-full w-8 mr-2">
+                                        {{ auth()->user()->name }}
+                                    </button>
+                                </template>
+                                <form id="logout-form" method="POST" action="/logout">
+                                    @csrf
+                                    <button type="submit" class="dropdown-menu-link w-full text-left">Logout</button>
+                                </form>
+                            </dropdown>
 
-                            <a class="flex items-center text-default no-underline text-sm" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                <img src="{{ avatar_url(auth()->user()->name) }}" alt="{{ auth()->user()->email }}'s avatar" class="rounded-full w-8 mr-2">
-                                Admin
-                            </a>
                             @endguest
                         </div>
                     </div>
